@@ -1,72 +1,132 @@
-يبدو أن هناك خطأ في تشغيل MoveIt Setup Assistant. دعنا نتحقق من بعض الأمور لحل المشكلة:
+لإنشاء مشروع باستخدام `turtlesim` في ROS، يمكنك اتباع الخطوات التالية:
 
-### التحقق من تثبيت الحزم اللازمة
-تأكد من أنك قمت بتثبيت جميع الحزم المطلوبة لـ MoveIt Setup Assistant.
+### 1. إعداد بيئة العمل
 
-1. **تثبيت MoveIt Setup Assistant**:
+1. **إنشاء مجلد العمل**:
    ```sh
-   sudo apt update
-   sudo apt install ros-noetic-moveit-setup-assistant
+   mkdir -p ~/catkin_ws/src
+   cd ~/catkin_ws/
    ```
 
-### التحقق من الأمر الصحيح لتشغيل MoveIt Setup Assistant
-يجب أن يكون الأمر الصحيح لتشغيل MoveIt Setup Assistant كما يلي:
-
-```sh
-roslaunch moveit_setup_assistant setup_assistant.launch
-```
-
-### التحقق من الحزم المثبتة
-تأكد من أن جميع الحزم المطلوبة لـ MoveIt مثبتة بشكل صحيح. استخدم الأمر التالي لتثبيت أو إعادة تثبيت MoveIt:
-
-1. **إزالة وتثبيت MoveIt مجددًا**:
+2. **بناء بيئة العمل**:
    ```sh
-   sudo apt remove ros-noetic-moveit
-   sudo apt install ros-noetic-moveit
+   catkin_make
+   source devel/setup.bash
    ```
 
-2. **تثبيت MoveIt Setup Assistant مجددًا**:
+### 2. إنشاء حزمة جديدة
+
+1. **الانتقال إلى مجلد `src`**:
    ```sh
-   sudo apt install ros-noetic-moveit-setup-assistant
+   cd ~/catkin_ws/src
    ```
 
-### التحقق من الملفات المتاحة في نظام الملفات
-تأكد من أن الملف `setup_assistant.launch` موجود في المسار الصحيح. يمكنك التحقق من وجود الملف باستخدام الأمر التالي:
-
-1. **البحث عن الملف**:
+2. **إنشاء حزمة جديدة تسمى `my_turtle`**:
    ```sh
-   roscd moveit_setup_assistant/launch
-   ls
+   catkin_create_pkg my_turtle std_msgs rospy roscpp turtlesim
    ```
 
-يجب أن ترى ملف `setup_assistant.launch` في القائمة.
-
-### تشغيل MoveIt Setup Assistant
-حاول تشغيل MoveIt Setup Assistant مرة أخرى بعد التأكد من الخطوات أعلاه:
-
-```sh
-roslaunch moveit_setup_assistant setup_assistant.launch
-```
-
-إذا استمرت المشكلة، قد يكون هناك خطأ في تثبيت الحزم أو تعارضات في المكتبات المثبتة. في هذه الحالة، يمكنك محاولة تنظيف النظام وإعادة تثبيت الحزم المطلوبة.
-
-### تنظيف النظام وإعادة تثبيت الحزم
-1. **تنظيف النظام**:
+3. **بناء الحزمة**:
    ```sh
-   sudo apt autoremove
-   sudo apt clean
+   cd ~/catkin_ws
+   catkin_make
+   source devel/setup.bash
    ```
 
-2. **إعادة تثبيت الحزم**:
+### 3. إنشاء ملف إطلاق (launch file)
+
+1. **إنشاء مجلد `launch` داخل الحزمة**:
    ```sh
-   sudo apt update
-   sudo apt install ros-noetic-moveit ros-noetic-moveit-setup-assistant
+   mkdir -p ~/catkin_ws/src/my_turtle/launch
    ```
 
-بعد تنفيذ هذه الخطوات، حاول تشغيل MoveIt Setup Assistant مرة أخرى باستخدام الأمر:
+2. **إنشاء ملف `turtlesim.launch`**:
+   ```sh
+   touch ~/catkin_ws/src/my_turtle/launch/turtlesim.launch
+   ```
 
-```sh
-roslaunch moveit_setup_assistant setup_assistant.launch
-```
+3. **تحرير ملف `turtlesim.launch` وإضافة المحتوى التالي**:
+   ```xml
+   <launch>
+     <node name="turtlesim" pkg="turtlesim" type="turtlesim_node" output="screen"/>
+     <node name="teleop" pkg="turtlesim" type="turtle_teleop_key" output="screen"/>
+   </launch>
+   ```
 
-إذا استمرت المشكلة بعد تنفيذ هذه الخطوات، يرجى مشاركة المزيد من التفاصيل حول رسالة الخطأ حتى أتمكن من تقديم المزيد من المساعدة.
+### 4. تشغيل المشروع
+
+1. **الانتقال إلى مجلد العمل**:
+   ```sh
+   cd ~/catkin_ws
+   ```
+
+2. **بناء المشروع مجددًا (إذا لم تقم بذلك بالفعل)**:
+   ```sh
+   catkin_make
+   source devel/setup.bash
+   ```
+
+3. **تشغيل ملف الإطلاق**:
+   ```sh
+   roslaunch my_turtle turtlesim.launch
+   ```
+
+### 5. التحكم في السلحفاة باستخدام لوحة المفاتيح
+
+- عند تشغيل ملف الإطلاق، سيتم فتح نافذة `turtlesim` ويمكنك التحكم في السلحفاة باستخدام لوحة المفاتيح في نافذة الطرفية.
+
+### برنامج بسيط لتحريك السلحفاة
+
+يمكنك أيضًا كتابة برنامج بسيط لتحريك السلحفاة تلقائيًا:
+
+1. **إنشاء مجلد `scripts` داخل الحزمة**:
+   ```sh
+   mkdir -p ~/catkin_ws/src/my_turtle/scripts
+   ```
+
+2. **إنشاء ملف `move_turtle.py`**:
+   ```sh
+   touch ~/catkin_ws/src/my_turtle/scripts/move_turtle.py
+   chmod +x ~/catkin_ws/src/my_turtle/scripts/move_turtle.py
+   ```
+
+3. **تحرير ملف `move_turtle.py` وإضافة المحتوى التالي**:
+   ```python
+   #!/usr/bin/env python
+
+   import rospy
+   from geometry_msgs.msg import Twist
+
+   def move_turtle():
+       rospy.init_node('move_turtle', anonymous=True)
+       pub = rospy.Publisher('/turtle1/cmd_vel', Twist, queue_size=10)
+       rate = rospy.Rate(10)  # 10hz
+       
+       move_cmd = Twist()
+       move_cmd.linear.x = 2.0
+       move_cmd.angular.z = 1.0
+
+       while not rospy.is_shutdown():
+           pub.publish(move_cmd)
+           rate.sleep()
+
+   if __name__ == '__main__':
+       try:
+           move_turtle()
+       except rospy.ROSInterruptException:
+           pass
+   ```
+
+4. **تشغيل البرنامج**:
+
+   افتح نافذة طرفية جديدة وشغل ملف الإطلاق:
+   ```sh
+   roslaunch my_turtle turtlesim.launch
+   ```
+
+   في نافذة طرفية أخرى، شغل البرنامج:
+   ```sh
+   rosrun my_turtle move_turtle.py
+   ```
+
+بهذا، ستكون قد أنشأت مشروع `turtlesim` واختبرت تحريك السلحفاة باستخدام كل من لوحة المفاتيح وبرنامج بسيط. إذا كانت لديك أي استفسارات إضافية، فلا تتردد في طرحها.
