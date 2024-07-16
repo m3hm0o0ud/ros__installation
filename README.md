@@ -1,62 +1,72 @@
-يبدو أن هناك خطأ متعلق بمكتبة مفقودة (`libfcl.so.0.6`). لحل هذه المشكلة، يمكنك محاولة تثبيت أو إعادة تثبيت المكتبات المطلوبة. فيما يلي الخطوات التي يمكنك اتباعها:
+يبدو أن هناك خطأ في تشغيل MoveIt Setup Assistant. دعنا نتحقق من بعض الأمور لحل المشكلة:
 
-### 1. تحديث نظام التشغيل والتأكد من وجود المكتبات المطلوبة
+### التحقق من تثبيت الحزم اللازمة
+تأكد من أنك قمت بتثبيت جميع الحزم المطلوبة لـ MoveIt Setup Assistant.
 
-1. **تحديث قائمة الحزم**:
+1. **تثبيت MoveIt Setup Assistant**:
    ```sh
    sudo apt update
+   sudo apt install ros-noetic-moveit-setup-assistant
    ```
 
-2. **تثبيت الحزم المطلوبة**:
-   ```sh
-   sudo apt install ros-noetic-moveit ros-noetic-moveit-setup-assistant
-   sudo apt install libfcl-dev
-   ```
+### التحقق من الأمر الصحيح لتشغيل MoveIt Setup Assistant
+يجب أن يكون الأمر الصحيح لتشغيل MoveIt Setup Assistant كما يلي:
 
-### 2. التحقق من وجود المكتبة المفقودة
-
-1. **التحقق من مكتبة `libfcl.so.0.6`**:
-   - ابحث عن المكتبة باستخدام الأمر:
-     ```sh
-     locate libfcl.so.0.6
-     ```
-   - إذا كانت المكتبة موجودة، تأكد من أن النظام يعرف مكانها باستخدام الأمر:
-     ```sh
-     sudo ldconfig
-     ```
-
-2. **إعادة تشغيل MoveIt Setup Assistant**:
-   - حاول تشغيل MoveIt Setup Assistant مرة أخرى:
-     ```sh
-     roslaunch moveit_setup_assistant setup_assistant.launch
-     ```
-
-### 3. تثبيت مكتبات إضافية إذا لزم الأمر
-
-1. **تثبيت مكتبات إضافية**:
-   - تأكد من تثبيت جميع المكتبات الضرورية لمكتبة `fcl`:
-     ```sh
-     sudo apt install libccd-dev
-     sudo apt install liboctomap-dev
-     sudo apt install libassimp-dev
-     ```
-
-### خطوات إضافية لحل المشكلة:
-
-1. **إزالة وإعادة تثبيت MoveIt**:
-   - إذا استمرت المشكلة، يمكنك محاولة إزالة وإعادة تثبيت MoveIt:
-     ```sh
-     sudo apt remove ros-noetic-moveit
-     sudo apt install ros-noetic-moveit
-     ```
-
-### تشغيل MoveIt Setup Assistant مرة أخرى
-
-بعد تنفيذ الخطوات المذكورة أعلاه، حاول تشغيل MoveIt Setup Assistant مرة أخرى باستخدام الأمر:
 ```sh
 roslaunch moveit_setup_assistant setup_assistant.launch
 ```
 
-إذا استمرت المشكلة بعد تنفيذ هذه الخطوات، قد تحتاج إلى التحقق من سجلات الأخطاء للحصول على معلومات إضافية حول المشكلة. يمكنك الوصول إلى السجلات المشار إليها في رسالة الخطأ لمعرفة المزيد من التفاصيل حول المشكلة.
+### التحقق من الحزم المثبتة
+تأكد من أن جميع الحزم المطلوبة لـ MoveIt مثبتة بشكل صحيح. استخدم الأمر التالي لتثبيت أو إعادة تثبيت MoveIt:
 
-إذا كنت بحاجة إلى مزيد من المساعدة أو إذا واجهت أي مشاكل إضافية، فلا تتردد في طرح المزيد من الأسئلة.
+1. **إزالة وتثبيت MoveIt مجددًا**:
+   ```sh
+   sudo apt remove ros-noetic-moveit
+   sudo apt install ros-noetic-moveit
+   ```
+
+2. **تثبيت MoveIt Setup Assistant مجددًا**:
+   ```sh
+   sudo apt install ros-noetic-moveit-setup-assistant
+   ```
+
+### التحقق من الملفات المتاحة في نظام الملفات
+تأكد من أن الملف `setup_assistant.launch` موجود في المسار الصحيح. يمكنك التحقق من وجود الملف باستخدام الأمر التالي:
+
+1. **البحث عن الملف**:
+   ```sh
+   roscd moveit_setup_assistant/launch
+   ls
+   ```
+
+يجب أن ترى ملف `setup_assistant.launch` في القائمة.
+
+### تشغيل MoveIt Setup Assistant
+حاول تشغيل MoveIt Setup Assistant مرة أخرى بعد التأكد من الخطوات أعلاه:
+
+```sh
+roslaunch moveit_setup_assistant setup_assistant.launch
+```
+
+إذا استمرت المشكلة، قد يكون هناك خطأ في تثبيت الحزم أو تعارضات في المكتبات المثبتة. في هذه الحالة، يمكنك محاولة تنظيف النظام وإعادة تثبيت الحزم المطلوبة.
+
+### تنظيف النظام وإعادة تثبيت الحزم
+1. **تنظيف النظام**:
+   ```sh
+   sudo apt autoremove
+   sudo apt clean
+   ```
+
+2. **إعادة تثبيت الحزم**:
+   ```sh
+   sudo apt update
+   sudo apt install ros-noetic-moveit ros-noetic-moveit-setup-assistant
+   ```
+
+بعد تنفيذ هذه الخطوات، حاول تشغيل MoveIt Setup Assistant مرة أخرى باستخدام الأمر:
+
+```sh
+roslaunch moveit_setup_assistant setup_assistant.launch
+```
+
+إذا استمرت المشكلة بعد تنفيذ هذه الخطوات، يرجى مشاركة المزيد من التفاصيل حول رسالة الخطأ حتى أتمكن من تقديم المزيد من المساعدة.
