@@ -1,68 +1,62 @@
+يبدو أن هناك خطأ متعلق بمكتبة مفقودة (`libfcl.so.0.6`). لحل هذه المشكلة، يمكنك محاولة تثبيت أو إعادة تثبيت المكتبات المطلوبة. فيما يلي الخطوات التي يمكنك اتباعها:
 
-# ROS Installation Guide
+### 1. تحديث نظام التشغيل والتأكد من وجود المكتبات المطلوبة
 
-## Installing ROS Noetic
+1. **تحديث قائمة الحزم**:
+   ```sh
+   sudo apt update
+   ```
 
-1. **Add sources and keys:**
-    ```bash
-    sudo apt update
-    sudo apt install curl
-    curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add -
-    ```
-2. **Add ROS repository:**
-    ```bash
-    sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
-    ```
-3. **Update package index:**
-    ```bash
-    sudo apt update
-    ```
-4. **Install ROS Noetic:**
-    ```bash
-    sudo apt install ros-noetic-desktop-full
-    ```
-5. **Setup environment:**
-    ```bash
-    echo "source /opt/ros/noetic/setup.bash" >> ~/.bashrc
-    source ~/.bashrc
-    ```
-6. **Install dependencies for building packages:**
-    ```bash
-    sudo apt install python3-rosdep python3-rosinstall python3-rosinstall-generator python3-wstool build-essential
-    ```
-7. **Initialize rosdep:**
-    ```bash
-    sudo apt install python3-rosdep
-    sudo rosdep init
-    rosdep update
-    ```
+2. **تثبيت الحزم المطلوبة**:
+   ```sh
+   sudo apt install ros-noetic-moveit ros-noetic-moveit-setup-assistant
+   sudo apt install libfcl-dev
+   ```
 
-## Installing ROS2 Foxy
+### 2. التحقق من وجود المكتبة المفقودة
 
-1. **Add sources and keys:**
-    ```bash
-    sudo apt update
-    sudo apt install curl gnupg2 lsb-release
-    curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add -
-    ```
-2. **Add ROS2 repository:**
-    ```bash
-    sudo sh -c 'echo "deb http://packages.ros.org/ros2/ubuntu $(lsb_release -cs) main" > /etc/apt/sources.list.d/ros2-latest.list'
-    ```
-3. **Update package index:**
-    ```bash
-    sudo apt update
-    ```
-4. **Install ROS2 Foxy:**
-    ```bash
-    sudo apt install ros-foxy-desktop
-    ```
-5. **Setup environment:**
-    ```bash
-    echo "source /opt/ros/foxy/setup.bash" >> ~/.bashrc
-    source ~/.bashrc
-    ```
-6. **Install dependencies for building packages:**
-    ```bash
-    sudo apt install python3-colcon-common-extensions
-    ```
+1. **التحقق من مكتبة `libfcl.so.0.6`**:
+   - ابحث عن المكتبة باستخدام الأمر:
+     ```sh
+     locate libfcl.so.0.6
+     ```
+   - إذا كانت المكتبة موجودة، تأكد من أن النظام يعرف مكانها باستخدام الأمر:
+     ```sh
+     sudo ldconfig
+     ```
+
+2. **إعادة تشغيل MoveIt Setup Assistant**:
+   - حاول تشغيل MoveIt Setup Assistant مرة أخرى:
+     ```sh
+     roslaunch moveit_setup_assistant setup_assistant.launch
+     ```
+
+### 3. تثبيت مكتبات إضافية إذا لزم الأمر
+
+1. **تثبيت مكتبات إضافية**:
+   - تأكد من تثبيت جميع المكتبات الضرورية لمكتبة `fcl`:
+     ```sh
+     sudo apt install libccd-dev
+     sudo apt install liboctomap-dev
+     sudo apt install libassimp-dev
+     ```
+
+### خطوات إضافية لحل المشكلة:
+
+1. **إزالة وإعادة تثبيت MoveIt**:
+   - إذا استمرت المشكلة، يمكنك محاولة إزالة وإعادة تثبيت MoveIt:
+     ```sh
+     sudo apt remove ros-noetic-moveit
+     sudo apt install ros-noetic-moveit
+     ```
+
+### تشغيل MoveIt Setup Assistant مرة أخرى
+
+بعد تنفيذ الخطوات المذكورة أعلاه، حاول تشغيل MoveIt Setup Assistant مرة أخرى باستخدام الأمر:
+```sh
+roslaunch moveit_setup_assistant setup_assistant.launch
+```
+
+إذا استمرت المشكلة بعد تنفيذ هذه الخطوات، قد تحتاج إلى التحقق من سجلات الأخطاء للحصول على معلومات إضافية حول المشكلة. يمكنك الوصول إلى السجلات المشار إليها في رسالة الخطأ لمعرفة المزيد من التفاصيل حول المشكلة.
+
+إذا كنت بحاجة إلى مزيد من المساعدة أو إذا واجهت أي مشاكل إضافية، فلا تتردد في طرح المزيد من الأسئلة.
