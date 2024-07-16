@@ -1,18 +1,15 @@
-حسنًا، يبدو أن هيكلية الحزمة `my_turtle` موجودة بشكل صحيح. دعنا نتأكد من بعض الأمور الأخرى ونقوم بتشغيل الخطوات اللازمة مرة أخرى لضمان أن كل شيء يعمل بشكل صحيح.
+ممتاز، يبدو أن `turtlesim` يعمل الآن بشكل صحيح. دعنا نتأكد من تشغيل برنامج `move_turtle.py` لتحريك السلحفاة تلقائيًا.
 
-### 1. التأكد من محتويات ملف `turtlesim.launch`
+### تشغيل برنامج `move_turtle.py`
 
-تأكد من أن ملف `turtlesim.launch` يحتوي على التالي:
-```xml
-<launch>
-  <node name="turtlesim" pkg="turtlesim" type="turtlesim_node" output="screen"/>
-  <node name="teleop" pkg="turtlesim" type="turtle_teleop_key" output="screen"/>
-</launch>
+### 1. التأكد من محتويات ملف `move_turtle.py`
+
+تحقق من أن ملف `move_turtle.py` يحتوي على الكود الصحيح. يمكنك استخدام الأمر التالي لفتح الملف والتحقق من محتوياته:
+```sh
+nano ~/catkin_ws/src/my_turtle/scripts/move_turtle.py
 ```
 
-### 2. التأكد من محتويات ملف `move_turtle.py`
-
-تأكد من أن ملف `move_turtle.py` يحتوي على التالي:
+تأكد من أن محتويات الملف كما يلي:
 ```python
 #!/usr/bin/env python
 
@@ -39,61 +36,29 @@ if __name__ == '__main__':
         pass
 ```
 
-### 3. التأكد من بناء الحزمة بشكل صحيح
+### 2. التأكد من الأذونات
 
-1. **الانتقال إلى مجلد العمل**:
-   ```sh
-   cd ~/catkin_ws
-   ```
-
-2. **بناء بيئة العمل**:
-   ```sh
-   catkin_make
-   source devel/setup.bash
-   ```
-
-### 4. تشغيل ملف الإطلاق
-
-حاول تشغيل ملف الإطلاق مرة أخرى:
+تأكد من أن الملف `move_turtle.py` يحتوي على الأذونات الصحيحة للتنفيذ:
 ```sh
-roslaunch my_turtle turtlesim.launch
+chmod +x ~/catkin_ws/src/my_turtle/scripts/move_turtle.py
 ```
 
-### 5. تشغيل البرنامج لتحريك السلحفاة
+### 3. تشغيل برنامج `move_turtle.py`
 
-حاول تشغيل البرنامج:
+افتح نافذة طرفية جديدة أو استخدم النافذة الحالية بعد التأكد من مصدر بيئة العمل:
+```sh
+source ~/catkin_ws/devel/setup.bash
+```
+
+ثم قم بتشغيل البرنامج:
 ```sh
 rosrun my_turtle move_turtle.py
 ```
 
-### 6. التحقق من مشاكل بيئة العمل
+### التحقق من الأخطاء
 
-1. **مصدر إعدادات ROS**:
-   ```sh
-   source /opt/ros/noetic/setup.bash
-   ```
+إذا لم يتحرك السلحفاة، تحقق من رسائل الخطأ في الطرفية. يجب أن تتأكد من أن العقدة `move_turtle` تعمل بشكل صحيح وتنشر الأوامر إلى `/turtle1/cmd_vel`.
 
-2. **مصدر إعداد بيئة العمل**:
-   ```sh
-   source ~/catkin_ws/devel/setup.bash
-   ```
+### إذا استمرت المشكلة
 
-### 7. إعادة بناء بيئة العمل بالكامل
-
-إذا لم يتم حل المشكلة بعد، حاول إعادة بناء بيئة العمل بالكامل:
-```sh
-cd ~/catkin_ws
-catkin_make clean
-catkin_make
-source devel/setup.bash
-```
-
-### 8. تشغيل المشروع مجددًا
-
-حاول مرة أخرى تشغيل ملف الإطلاق وتشغيل البرنامج:
-```sh
-roslaunch my_turtle turtlesim.launch
-rosrun my_turtle move_turtle.py
-```
-
-إذا استمرت المشاكل، يرجى مشاركة تفاصيل إضافية حول رسالة الخطأ حتى أتمكن من تقديم المزيد من المساعدة.
+إذا واجهت أي مشاكل، يرجى مشاركة تفاصيل إضافية حول رسالة الخطأ حتى أتمكن من تقديم المزيد من المساعدة.
