@@ -62,3 +62,6 @@ rosrun my_turtle move_turtle.py
 ```
 
 إذا استمرت المشكلة، يرجى مشاركة تفاصيل إضافية حول رسالة الخطأ.
+
+
+http://wiki.ros.org/ROS/Tutorials/WritingPublisherSubscriber%28python%29
